@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.usermanager.mapper.UserMapper">
+    <select id="login" resultType="com.example.usermanager.model.UserInfo">
+        select *from userinfo where loginname=#{loginname} and password=#{password} and isadmin=1
+    </select>
+    <select id="getAll" resultType="com.example.usermanager.model.UserInfo">
+        select *from userinfo
+    </select>
+
+    <insert id="add">
+        insert into userinfo(username,loginname,password,sex,age,address,qq,email,isadmin)
+        values(#{username},#{loginname},#{password},#{sex},#{age},#{address},#{qq},#{email},#{isadmin})
+    </insert>
+
+    <select id="getUserByLoginName" resultType="com.example.usermanager.model.UserInfo">
+        select *from userinfo where loginname=#{loginname}
+    </select>
+
+    <select id="getUserByUid" resultType="com.example.usermanager.model.UserInfo">
+        select *from userinfo where uid=#{uid}
+    </select>
+
+    <update id="update">
+        update userinfo set username=#{username},
+        <if test="password!=null">
+            password=#{password},
+        </if>
+        sex=#{sex},age=#{age},address=#{address},qq=#{qq},email=#{email}
+        where uid=#{uid}
+    </update>
+
+    <delete id="del">
+        delete from userinfo where uid=#{uid}
+    </delete>
+
+    <delete id="dels">
+        delete from userinfo where uid in
+        <foreach collection="ids" item="uid" separator="," open="(" close=")">
+            #{uid}
+        </foreach>
+    </delete>
+
+    <select id="getListByPage" resultType="com.example.usermanager.model.UserInfo">
+        select *from userinfo
+        <where>
+            <if test="username!=null">
+                username={username}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+        </where>
+        limit #{limit} offset #{offset}
+    </select>
+
+    <select id="getListByPageCount" resultType="java.lang.Integer">
+        select count(*)from userinfo
+        <where>
+            <if test="username!=null">
+                username={username}
+            </if>
+            <if test="address!=null">
+                and address=#{address}
+            </if>
+            <if test="email!=null">
+                and email=#{email}
+            </if>
+        </where>
+    </select>
+
+</mapper>

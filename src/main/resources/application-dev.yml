@@ -1,0 +1,19 @@
+#开发环境的配置文件
+#配置数据库链接字符串
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/usermanager?characterEncoding=utf8&useSSL=false
+    username: root
+    password: ysb52123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#设置 MyBatis 的 xml 保存路径
+mybatis:
+  mapper-locations: classpath:mapper/**Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#配置打印 MyBatis 的执行 SQL
+logging:
+  level:
+    com:
+      example:
+        usermanager: debug
